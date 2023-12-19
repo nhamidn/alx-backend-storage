@@ -1,0 +1,2 @@
+// Script that show the available database (mongodb)
+show dbs

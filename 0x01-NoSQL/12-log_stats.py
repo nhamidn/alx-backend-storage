@@ -2,12 +2,13 @@
 """
 12-log_stats module
 """
+
 from pymongo import MongoClient
 
 
 def show_stats():
     """
-    Python function that provides some stats about Nginx logs stored in MongoDB
+    Python Function that provides some stats about Nginx logs
     """
     client = MongoClient('mongodb://127.0.0.1:27017')
     logs_collection = client.logs.nginx
@@ -30,5 +31,4 @@ def show_stats():
 
 
 if __name__ == "__main__":
-    """Main method"""
     show_stats()

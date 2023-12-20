@@ -8,14 +8,18 @@ from typing import Union
 
 
 class Cache:
-    """Cache class."""
+    """ Caching class
+    """
     def __init__(self) -> None:
-        """Init method of the Cache class."""
+        """__init__ method."""
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self, data: Union[str, bytes, int, float]) -> str:
+    @call_history
+    @count_calls
+    def store(self, data: Union[str, bytes,  int,  float]) -> str:
         """Store data in Redis with a random key and return the key"""
-        rand_key = str(uuid4())
-        self._redis.set(rand_key, data)
-        return rand_key
+        key = str(uuid4())
+        client = self._redis
+        client.set(key, data)
+        return key

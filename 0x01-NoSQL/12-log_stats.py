@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """
 12-log_stats module
-Python script that provides some stats about Nginx logs stored in MongoDB
 """
 from pymongo import MongoClient
 
 
-if __name__ == "__main__":
+def show_stats():
     """
-    Python script that provides some stats about Nginx logs stored in MongoDB
+    Python function that provides some stats about Nginx logs stored in MongoDB
     """
     client = MongoClient('mongodb://127.0.0.1:27017')
     logs_collection = client.logs.nginx
@@ -28,3 +27,8 @@ if __name__ == "__main__":
     print(f"\tmethod PATCH: {patch}")
     print(f"\tmethod DELETE: {delete}")
     print(f"{numGET} status check")
+
+
+if __name__ == "__main__":
+    """Main method"""
+    show_stats()

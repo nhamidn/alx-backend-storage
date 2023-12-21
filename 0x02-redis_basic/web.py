@@ -22,6 +22,7 @@ def data_caching(method: Callable) -> Callable:
             return cached_page.decode('utf-8')
 
         result = method(url)
+        redisStore.set(f"count:{url}", 0)
         redisStore.setex(f"page:{url}", 10, result)
         return result
 

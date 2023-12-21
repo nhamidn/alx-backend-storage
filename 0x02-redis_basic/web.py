@@ -31,5 +31,4 @@ def data_caching(method: Callable) -> Callable:
 @data_caching
 def get_page(url: str) -> str:
     """Function that get and return the html content of url"""
-    html_content = requests.get(url).text
-    return html_content
+    return requests.get(url).text

@@ -8,24 +8,22 @@ from functools import wraps
 from typing import Callable
 
 
-redisStore = redis.Redis()
+redis_store = redis.Redis()
 
 
 def data_caching(method: Callable) -> Callable:
     """Decorator that cache fetched data from url"""
     @wraps(method)
-    def wrapper(url):
+    def wrapper(url) -> str:
         """Function that cache the data"""
-        redisStore.incr(f"count:{url}")
-        cached_page = redisStore.get(f"page:{url}")
-        if cached_page:
-            return cached_page.decode('utf-8')
-
+        redis_store.incr(f'count:{url}')
+        result = redis_store.get(f'result:{url}')
+        if result:
+            return result.decode('utf-8')
         result = method(url)
-        redisStore.set(f"count:{url}", 0)
-        redisStore.setex(f"page:{url}", 10, result)
+        redis_store.set(f'count:{url}', 0)
+        redis_store.setex(f'result:{url}', 10, result)
         return result
-
     return wrapper
 
 

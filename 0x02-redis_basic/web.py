@@ -23,7 +23,7 @@ def data_caching(method: Callable) -> Callable:
         result = method(url)
         redis_store.set(f'count:{url}', 0)
         redis_store.setex(f'result:{url}', 10, result)
-        return result
+        return 'OK'
     return wrapper
 
 

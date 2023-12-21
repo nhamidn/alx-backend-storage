@@ -21,8 +21,9 @@ def data_caching(method: Callable) -> Callable:
 
         redisStore.incr(count_key)
 
-        if redisStore.exists(cache_key):
-            return redisStore.get(cache_key).decode()
+        cached_page = redisStore.get(cache_key)
+        if cached_page:
+            return cached_page.decode('utf-8')
 
         result = method(url)
         redisStore.setex(cache_key, 10, result)

@@ -16,17 +16,13 @@ def data_caching(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(url):
         """Function that cache the data"""
-        cache_key = f"page:{url}"
-        count_key = f"count:{url}"
-
-        redisStore.incr(count_key)
-
-        cached_page = redisStore.get(cache_key)
+        redisStore.incr(f"count:{url}")
+        cached_page = redisStore.get(f"page:{url}")
         if cached_page:
             return cached_page.decode('utf-8')
 
         result = method(url)
-        redisStore.setex(cache_key, 10, result)
+        redisStore.setex(f"page:{url}", 10, result)
         return result
 
     return wrapper

@@ -17,13 +17,13 @@ def data_caching(method: Callable) -> Callable:
     def wrapper(url) -> str:
         """Function that cache the data"""
         redis_store.incr(f'count:{url}')
-        result = redis_store.get(f'result:{url}')
+        result = redis_store.get(url)
         if result:
             return result.decode('utf-8')
         result = method(url)
         redis_store.set(f'count:{url}', 0)
-        redis_store.setex(f'result:{url}', 10, result)
-        return 'OK'
+        redis_store.setex(url, 10, result)
+        return result
     return wrapper
 
 
